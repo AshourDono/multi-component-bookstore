@@ -1,16 +1,40 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <NavbarComponent @change-visible="changeVisible" :cart="cart"/>
+  <CardComponent @add-to-wishlist="addToWishlist" :isVisible="isVisible" :wishlist="wishlist"/>
+  <TableComponent @remove-from-wishlist="removeFromWishlist" :isVisible="isVisible" :wishlist="wishlist"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavbarComponent from "./components/NavbarComponent.vue";
+import CardComponent from './components/CardComponent.vue'
+import TableComponent from './components/TableComponent.vue'
 
 export default {
   name: 'App',
+  data(){
+    return{
+      isVisible: false,
+      cart: 0,
+      wishlist: [],
+    }
+  },
+  methods:{
+    changeVisible() {
+        this.isVisible = !this.isVisible;
+    },
+    addToWishlist(book){
+      this.wishlist.push({ book: book });
+      this.cart++;
+    },
+    removeFromWishlist(book){
+      let selected = this.wishlist.indexOf(book);
+      this.wishlist.splice(selected, 1);
+      this.cart--;
+    } 
+  },
   components: {
-    HelloWorld
-  }
+    NavbarComponent,CardComponent,TableComponent
+  },
 }
 </script>
 
